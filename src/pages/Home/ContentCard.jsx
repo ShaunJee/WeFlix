@@ -262,7 +262,7 @@ const ContentCard = memo(({
           }}
         >
           <div 
-            className={`w-full bg-[#181818] rounded-xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.95)] ring-1 ring-white/10 animate-in fade-in fill-mode-both zoom-in-75 duration-300 pointer-events-auto flex flex-col ${
+            className={`w-full bg-[#181818] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10 animate-in fade-in fill-mode-both zoom-in-75 duration-300 pointer-events-auto flex flex-col ${
               popoutOrigin === 'left' ? 'origin-left' : popoutOrigin === 'right' ? 'origin-right' : 'origin-center'
             }`}
             onMouseLeave={handleMouseLeave}
@@ -273,7 +273,10 @@ const ContentCard = memo(({
                 ref={iframeRef}
                 title="Trailer"
                 src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&playlist=${trailerKey}&playsinline=1&enablejsapi=1`}
-                className="w-full h-full scale-[1.35] pointer-events-none"
+                
+                // Add transform-gpu here!
+                className="w-full h-full scale-[1.35] pointer-events-none transform-gpu will-change-transform"
+                
                 allow="autoplay; encrypted-media"
                 onLoad={() => setTimeout(() => setIframeReady(true), 800)}
               />
@@ -289,7 +292,7 @@ const ContentCard = memo(({
                       backgroundImage: `url(${poster})`,
                       backgroundSize: '100% 100%',
                       backgroundPosition: 'center center',
-                      filter: 'blur(12px)',
+                      filter: iframeReady ? 'none' : 'blur(12px)',
                       transform: 'scale(1.15)',
                     }}
                   />
