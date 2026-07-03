@@ -5,9 +5,9 @@ import { FaServer } from 'react-icons/fa';
 const SOURCES = [
   { name: 'Server 1 (VidNest)', url: (id) => `https://vidnest.fun/movie/${id}` },
   { name: 'Server 2 (VidLink)', url: (id) => `https://vidlink.pro/movie/${id}?primaryColor=c45454&secondaryColor=a2a2a2&iconColor=eefdec&poster=true&title=true&nextbutton=false&player=jw&autoplay=false` },
-  { name: 'Server 3 (VidSrc.cc)', url: (id) => `https://vidsrc.cc/v2/embed/movie/${id}?autoPlay=true` },
-  { name: 'Server 4 (VidSrc RU)', url: (id) => `https://vidsrc-embed.ru/embed/movie/${id}?autoPlay=true` },
-  { name: 'Server 5 (Super)', url: (id) => `https://multiembed.mov/?video_id=${id}&tmdb=1&autoPlay=true` },
+  { name: 'Server 3 (VidSrc.cc)', url: (id) => `https://vidsrc.cc/v2/embed/movie/${id}?autoPlay=false` },
+  { name: 'Server 4 (VidSrc RU)', url: (id) => `https://vidsrc-embed.ru/embed/movie/${id}?autoPlay=false` },
+  { name: 'Server 5 (Super)', url: (id) => `https://multiembed.mov/?video_id=${id}&tmdb=1&autoPlay=false` },
 ];
 
 const VideoPlayer = ({ movieId }) => {
@@ -49,17 +49,21 @@ const VideoPlayer = ({ movieId }) => {
             <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden ring-1 ring-white/10 shadow-lg transform-gpu will-change-transform">
                 {shouldRender && (
                     <iframe
-                        key={iframeSrc}
-                        src={iframeSrc}
-                        allow="fullscreen *; picture-in-picture *; autoplay *; encrypted-media *; screen-wake-lock *;"
-                        allowFullScreen
-                        webkitallowfullscreen="true"
-                        mozallowfullscreen="true"
-                        title="Movie Stream"
-                        referrerPolicy="origin"
-                        className="absolute inset-0 w-full h-full border-0 transform-gpu"
-                        style={{ userSelect: 'none' }}
-                    />
+                      key={iframeSrc}
+                      src={iframeSrc}
+                      
+                      // THE FIX: Restrict the iframe's capabilities
+                      sandbox="allow-scripts allow-same-origin allow-presentation"
+                      
+                      allow="fullscreen *; picture-in-picture *; encrypted-media *; screen-wake-lock *;"
+                      allowFullScreen
+                      webkitallowfullscreen="true"
+                      mozallowfullscreen="true"
+                      title="Movie Stream"
+                      referrerPolicy="origin"
+                      className="absolute inset-0 w-full h-full border-0 transform-gpu"
+                      style={{ userSelect: 'none' }}
+                  />
                 )}
             </div>
         </div>
