@@ -80,7 +80,7 @@ function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpe
         </div>
         <div className="flex flex-col leading-tight whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-100">
           <span className="text-white font-black text-[20px] tracking-tight">WeFlix</span>
-          <span className="text-red-400/70 text-[10px] font-semibold tracking-[0.22em] uppercase mt-0.5">Streaming</span>
+          <span className="text-red-400/70 text-[10px] font-semibold tracking-[0.22em] uppercase mt-0.5">002336</span>
         </div>
       </button>
 
