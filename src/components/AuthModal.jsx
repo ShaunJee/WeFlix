@@ -63,40 +63,8 @@ export default function AuthModal({ isOpen, onClose }) {
 
   const [verificationSent, setVerificationSent] = useState(false);
 
-  // Cloudflare Turnstile
-  const turnstileRef = useRef(null);
-  const turnstileWidgetId = useRef(null);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const renderWidget = () => {
-      if (!turnstileRef.current || !window.turnstile) return;
-      if (turnstileWidgetId.current !== null) {
-        try { window.turnstile.remove(turnstileWidgetId.current); } catch (_) {}
-      }
-      turnstileWidgetId.current = window.turnstile.render(turnstileRef.current, {
-        sitekey: '0x4AAAAAADXIPkP3kbxBSU8N',
-        theme: 'dark',
-      });
-    };
-
-    // If Turnstile already loaded before this modal opened, render immediately
-    if (window._turnstileReady || window.turnstile) {
-      setTimeout(renderWidget, 100); // small delay for modal DOM to mount
-    } else {
-      // Wait for the onload event fired from index.html
-      window.addEventListener('turnstile-ready', renderWidget, { once: true });
-    }
-
-    return () => {
-      window.removeEventListener('turnstile-ready', renderWidget);
-      if (turnstileWidgetId.current !== null && window.turnstile) {
-        try { window.turnstile.remove(turnstileWidgetId.current); } catch (_) {}
-        turnstileWidgetId.current = null;
-      }
-    };
-  }, [isOpen]);
+    
 
 
   // Clear errors when switching tabs
@@ -420,7 +388,7 @@ export default function AuthModal({ isOpen, onClose }) {
                       </button>
                     </div>
                   )}
-                  <div ref={turnstileRef} className="flex justify-center" />
+
 
                   <button
                     type="submit"
