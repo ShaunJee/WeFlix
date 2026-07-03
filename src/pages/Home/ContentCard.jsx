@@ -108,11 +108,6 @@ const ContentCard = memo(({
       else setPopoutOrigin('center');
     }
 
-    hoverTimerRef.current = setTimeout(() => {
-      setShowTrailer(true);
-    }, 800); // 800ms hover creates an intentional feel
-  }, [mediaId, mediaType]);
-
   const handleMouseLeave = useCallback(() => {
     if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
     setShowTrailer(false);
