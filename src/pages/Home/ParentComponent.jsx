@@ -167,8 +167,9 @@ function ParentComponent() {
                     TMDB
                   </a>
                 </span>
+                <span>·</span>
+                <span>Please use AdBlocker</span>
               </div>
-              <a href="//www.dmca.com/Protection/Status.aspx?ID=204cd8cc-b62c-4f4a-aa8b-939824095655" title="DMCA.com Protection Status" class="dmca-badge"> <img src ="https://images.dmca.com/Badges/dmca_protected_sml_120m.png?ID=204cd8cc-b62c-4f4a-aa8b-939824095655"  alt="DMCA.com Protection Status" /></a>  <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
             </div>
           </div>
         </footer>}
