@@ -145,6 +145,14 @@ const ContentCard = memo(({
     }
   }, [showTrailer, mediaId, mediaType, trailerKey, trailerError]);
 
+  // Make sure this handleMouseLeave function is still here!
+  const handleMouseLeave = useCallback(() => {
+    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    setShowTrailer(false);
+    setIsMuted(true);
+    setIframeReady(false);
+  }, []);
+
   return (
     <motion.div
       whileHover={{ scale: 1.05, y: -4 }}
