@@ -94,26 +94,39 @@ const ContentCard = memo(({
     );
   }, [isMuted]);
 
-  const handleMouseEnter = useCallback((e) => {
+  // Remove the entire useEffect that fetches the trailer!
+
+  const handleMouseEnter = useCallback(async (e) => {
     if (!mediaId || !mediaType) return;
-    // Skip trailer on touch-only devices (mobile/tablet)
     if (window.matchMedia('(hover: none)').matches) return;
     
     if (e?.currentTarget) {
       const rect = e.currentTarget.getBoundingClientRect();
       const vw = window.innerWidth;
-      // Cards too close to the left/right edges must transform away from the edge
       if (rect.left < vw * 0.15) setPopoutOrigin('left');
       else if (rect.right > vw * 0.85) setPopoutOrigin('right');
       else setPopoutOrigin('center');
     }
 
-  const handleMouseLeave = useCallback(() => {
-    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
-    setShowTrailer(false);
-    setIsMuted(true);
-    setIframeReady(false);
-  }, []);
+    // 1. Immediately start fetching the trailer key (if we don't have it yet)
+    if (!trailerKey && !trailerError) {
+      try {
+        const API_KEY = import.meta.env.VITE_TMDB_API;
+        const res = await fetch(`https://api.themoviedb.org/3/${mediaType}/${mediaId}/videos?api_key=${API_KEY}`);
+        const data = await res.json();
+        const v = data.results?.find(vid => vid.type === 'Trailer' && vid.site === 'YouTube');
+        if (v) setTrailerKey(v.key);
+        else setTrailerError(true);
+      } catch (err) {
+        setTrailerError(true);
+      }
+    }
+
+    // 2. Start the 800ms timer to show the trailer
+    hoverTimerRef.current = setTimeout(() => {
+      setShowTrailer(true);
+    }, 800); 
+  }, [mediaId, mediaType, trailerKey, trailerError]);
 
   useEffect(() => {
     if (showTrailer && !trailerKey && !trailerError) {
