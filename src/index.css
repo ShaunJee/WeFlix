@@ -27,6 +27,7 @@
 
 html, body {
   background-color: black;
+  scroll-behavior: smooth;
 }
 
 #root {
