@@ -52,8 +52,6 @@ const VideoPlayer = ({ movieId }) => {
                       key={iframeSrc}
                       src={iframeSrc}
                       
-                      // THE FIX: Restrict the iframe's capabilities
-                      sandbox="allow-scripts allow-same-origin allow-presentation"
                       
                       allow="fullscreen *; picture-in-picture *; encrypted-media *; screen-wake-lock *;"
                       allowFullScreen
