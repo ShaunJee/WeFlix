@@ -46,13 +46,13 @@ const VideoPlayer = ({ tvId, season = 1, episode = 1 }) => {
             </div>
 
             {/* Player */}
-            <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden ring-1 ring-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+            <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden ring-1 ring-white/10 shadow-lg transform-gpu will-change-transform">
                 {shouldRender && (
                     <iframe
                         key={iframeSrc}
                         src={iframeSrc}
                         title={`TV Show: ${tvId} - S${season}E${episode}`}
-                        className="absolute inset-0 w-full h-full border-0"
+                        className="absolute inset-0 w-full h-full border-0 transform-gpu"
                         allow="fullscreen *; picture-in-picture *; autoplay *; encrypted-media *; screen-wake-lock *;"
                         allowFullScreen
                         webkitallowfullscreen="true"
