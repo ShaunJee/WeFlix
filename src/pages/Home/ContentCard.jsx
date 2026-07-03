@@ -145,13 +145,37 @@ const ContentCard = memo(({
     }
   }, [showTrailer, mediaId, mediaType, trailerKey, trailerError]);
 
-  // Make sure this handleMouseLeave function is still here!
   const handleMouseLeave = useCallback(() => {
-    if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+    if (hoverTimerRef.current) {
+      clearTimeout(hoverTimerRef.current);
+      hoverTimerRef.current = null;
+    }
+  
     setShowTrailer(false);
     setIsMuted(true);
     setIframeReady(false);
   }, []);
+
+  useEffect(() => {
+    if (!showTrailer) return;
+  
+    const closeTrailer = () => {
+      if (hoverTimerRef.current) {
+        clearTimeout(hoverTimerRef.current);
+        hoverTimerRef.current = null;
+      }
+  
+      setShowTrailer(false);
+      setIsMuted(true);
+      setIframeReady(false);
+    };
+  
+    window.addEventListener('scroll', closeTrailer, { passive: true });
+  
+    return () => {
+      window.removeEventListener('scroll', closeTrailer);
+    };
+  }, [showTrailer]);
 
   return (
     <motion.div
