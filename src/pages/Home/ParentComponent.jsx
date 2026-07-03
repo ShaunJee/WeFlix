@@ -155,7 +155,7 @@ function ParentComponent() {
             <div className="flex items-center gap-3">
               <span className="text-white font-black text-sm">We<span className="text-red-500">Flix</span></span>
               <span>·</span>
-              <span>Developed by <span className="text-gray-400 font-semibold">Phyo Min Thein</span></span>
+              <span>Developed by <span className="text-gray-400 font-semibold">SJ</span></span>
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
