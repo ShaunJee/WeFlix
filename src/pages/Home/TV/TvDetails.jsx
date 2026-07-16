@@ -512,7 +512,7 @@ const TvDetails = ({ tvId: tvIdProp }) => {
         <div className="absolute top-0 left-0 right-0 z-20 p-6 md:p-10 flex">
           <button
             onClick={handleBack}
-            className="group flex items-center gap-2 bg-[#181a21]/90 hover:bg-[#20242f] border border-white/10 text-gray-200 hover:text-white text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300"
+            className="group flex items-center gap-2 bg-black/30 hover:bg-black/50 backdrop-blur-md border border-white/10 text-gray-200 hover:text-white text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300"
           >
             <FaArrowLeft className="group-hover:-translate-x-1 transition-transform duration-300" />
             <span>Back</span>
@@ -554,7 +554,7 @@ const TvDetails = ({ tvId: tvIdProp }) => {
             {(tv.genres ?? []).length > 0 && (
                <div className="flex flex-wrap gap-2 mb-6">
                  {(tv.genres ?? []).map(g => (
-                   <span key={g.id} className="bg-white/[0.08] hover:bg-white/[0.15] transition-colors border border-white/10 px-3 py-1 rounded-full text-xs font-semibold text-gray-200 shadow-sm">
+                   <span key={g.id} className="bg-white/10 hover:bg-white/20 transition-colors backdrop-blur-md border border-white/10 px-3 py-1 rounded-full text-xs font-semibold text-gray-200 shadow-sm">
                      {g.name}
                    </span>
                  ))}
@@ -565,10 +565,10 @@ const TvDetails = ({ tvId: tvIdProp }) => {
             <div className="flex flex-wrap gap-4 mb-6">
                <button
                  onClick={toggleWatchlist}
-                 className={`flex items-center gap-2 text-white font-bold px-6 py-3 rounded-xl transition-all active:scale-[0.98] ${
+                 className={`flex items-center gap-2 backdrop-blur-md text-white font-bold px-6 py-3 rounded-xl transition-all active:scale-[0.98] ${
                    inWatchlist 
-                     ? 'bg-red-600/30 hover:bg-red-600/40 border border-red-500/50' 
-                     : 'bg-white/[0.08] hover:bg-white/[0.15] border border-white/[0.08]'
+                     ? 'bg-red-600/20 hover:bg-red-600/30 border border-red-500/50' 
+                     : 'bg-white/10 hover:bg-white/20 border border-white/10'
                  }`}
                >
                  <FaBookmark className={inWatchlist ? "text-red-400" : ""} /> 
@@ -601,7 +601,7 @@ const TvDetails = ({ tvId: tvIdProp }) => {
           {/* Subtle Video Player Glow Backdrop */}
           <div className="absolute -inset-1 bg-gradient-to-r from-red-600/30 to-blue-600/30 blur-2xl opacity-50 z-0 rounded-2xl md:rounded-[2rem]"></div>
           
-          <div className="relative z-10 bg-[#0f1117] border border-white/5 rounded-2xl md:rounded-[2rem] p-2 md:p-4 shadow-2xl ring-1 ring-white/5">
+          <div className="relative z-10 bg-[#0f1117]/80 backdrop-blur-xl border border-white/5 rounded-2xl md:rounded-[2rem] p-2 md:p-4 shadow-2xl ring-1 ring-white/5">
             {playingSeason !== null && playingEpisode !== null ? (
               <MemoizedVideoPlayer
                 tvId={tvId}
@@ -673,7 +673,7 @@ const TvDetails = ({ tvId: tvIdProp }) => {
       {/* ── EPISODES SELECTOR ── */}
       {allSeasons.length > 0 && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pb-16">
-          <section className="bg-[#111319] border border-white/5 overflow-hidden shadow-2xl rounded-[2rem]">
+          <section className="bg-[#111319]/50 backdrop-blur-md rounded-[2rem] border border-white/5 overflow-hidden shadow-2xl">
             {/* Header */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 md:px-8 border-b border-white/[0.04]">
               <div className="flex items-center gap-4 min-w-0 w-full sm:w-auto">
@@ -788,7 +788,7 @@ const TvDetails = ({ tvId: tvIdProp }) => {
                             </div>
                           )}
 
-                          <span className="absolute top-2 left-2 bg-black/85 text-white/90 text-[10px] font-bold px-2 py-1 rounded-md border border-white/10 z-10">
+                          <span className="absolute top-2 left-2 bg-black/80 backdrop-blur-md text-white/90 text-[10px] font-bold px-2 py-1 rounded-md border border-white/10 z-10">
                             E{ep.episode_number}
                           </span>
 

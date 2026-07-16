@@ -78,7 +78,7 @@ function Series() {
         url={`https://www.weflix.app${buildBrowsePath('tv', genreId)}`}
       />
       {/* Sticky context header */}
-      <div className="sticky top-0 z-40 bg-[#0b0f18] border-b border-white/[0.06]">
+      <div className="sticky top-0 z-40 backdrop-blur-md bg-[#0b0f18]/80 border-b border-white/[0.06]">
         <div className="px-4 sm:px-6 pt-[calc(env(safe-area-inset-top)+1rem)] md:pt-4 pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3.5">

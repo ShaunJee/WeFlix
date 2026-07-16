@@ -411,7 +411,7 @@ function SearchPage() {
         }
       />
       {/* Mobile-aware sticky top bar */}
-      <div className="sticky top-0 z-40 -mx-4 sm:-mx-8 px-4 sm:px-8 pt-[calc(env(safe-area-inset-top)+0.75rem)] md:pt-0 pb-3 md:pb-0 bg-black md:bg-transparent border-b border-white/[0.06] md:border-none mb-4 md:mb-0">
+      <div className="sticky top-0 z-40 -mx-4 sm:-mx-8 px-4 sm:px-8 pt-[calc(env(safe-area-inset-top)+0.75rem)] md:pt-0 pb-3 md:pb-0 backdrop-blur-md bg-black/80 md:bg-transparent border-b border-white/[0.06] md:border-none mb-4 md:mb-0">
         <h1 className="text-2xl sm:text-3xl font-bold md:hidden">Search</h1>
       </div>
       <h1 className="hidden md:block text-3xl font-bold mb-6">Search</h1>
@@ -474,7 +474,7 @@ function SearchPage() {
             transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden"
           >
-            <div className="mt-4 p-4 sm:p-5 rounded-2xl border border-white/[0.08] bg-[#121620] max-w-3xl space-y-5">
+            <div className="mt-4 p-4 sm:p-5 rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-sm max-w-3xl space-y-5">
 
               {/* Row 1: Media Type */}
               <div>

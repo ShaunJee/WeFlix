@@ -63,7 +63,7 @@ function Sidebar({ activePage, onNavigate, selectedGenreId, onGenreSelect, onOpe
       group fixed top-0 left-0 h-full z-50
       hidden md:flex flex-col
       w-[84px] hover:w-[260px]
-      bg-[#0d1017]
+      bg-gray-900/95 backdrop-blur-xl
       border-r border-white/10
       shadow-2xl shadow-black/30
       overflow-hidden
