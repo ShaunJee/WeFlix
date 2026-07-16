@@ -126,15 +126,13 @@ const ContentCard = memo(({
     // Close any other active trailer immediately
     window.dispatchEvent(new CustomEvent('weflixActiveTrailer', { detail: { mediaId } }));
 
-    // Pre-fetch key
-    fetchTrailerKey();
-
     if (hoverTimerRef.current) {
       clearTimeout(hoverTimerRef.current);
     }
 
     // Start 800ms hover delay
     hoverTimerRef.current = setTimeout(() => {
+      fetchTrailerKey();
       setShowTrailer(true);
     }, 800); 
   }, [mediaId, mediaType, fetchTrailerKey]);
@@ -286,8 +284,15 @@ const ContentCard = memo(({
       {/* ── POPOUT TRAILER OVERLAY (NETFLIX WEB STYLE) ── */}
       <AnimatePresence>
         {showTrailer && trailerKey && (
-          <div 
-            className="absolute z-50 pointer-events-none"
+          <motion.div 
+            key={`${mediaId}-trailer`}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.85 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className={`absolute z-50 pointer-events-auto flex flex-col bg-[#181818] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10 ${
+              popoutOrigin === 'left' ? 'origin-left' : popoutOrigin === 'right' ? 'origin-right' : 'origin-center'
+            }`}
             style={{ 
               top: '50%',
               width: '220%',
@@ -298,88 +303,78 @@ const ContentCard = memo(({
                   : { left: '50%', transform: 'translate(-50%, -50%)' }
               )
             }}
+            onMouseLeave={handleMouseLeave}
           >
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.85 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className={`w-full bg-[#181818] rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10 pointer-events-auto flex flex-col ${
-                popoutOrigin === 'left' ? 'origin-left' : popoutOrigin === 'right' ? 'origin-right' : 'origin-center'
-              }`}
-              onMouseLeave={handleMouseLeave}
-            >
-              {/* 16:9 Video Top */}
-              <div className="relative w-full aspect-video bg-black cursor-pointer overflow-hidden" onClick={onClick}>
-                <iframe
-                  ref={iframeRef}
-                  title="Trailer"
-                  src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&playlist=${trailerKey}&playsinline=1&enablejsapi=1`}
-                  className="w-full h-full scale-[1.35] pointer-events-none transform-gpu will-change-transform"
-                  allow="autoplay; encrypted-media"
-                  onLoad={() => setTimeout(() => setIframeReady(true), 800)}
-                />
-                {/* Poster cover — hides YouTube loader/logo while buffering */}
-                <div
-                  className="absolute inset-0 transition-opacity duration-500 pointer-events-none"
-                  style={{ opacity: iframeReady ? 0 : 1 }}
-                >
-                  {poster && (
-                    <div
-                      className="w-full h-full"
-                      style={{
-                        backgroundImage: `url(${poster})`,
-                        backgroundSize: '100% 100%',
-                        backgroundPosition: 'center center',
-                        filter: iframeReady ? 'none' : 'blur(12px)',
-                        transform: 'scale(1.15)',
-                      }}
-                    />
-                  )}
-                  {/* Dark scrim so it doesn't look too bright */}
-                  <div className="absolute inset-0 bg-black/50" />
-                </div>
-                <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#181818] to-transparent pointer-events-none" />
-                {/* Mute / Unmute button */}
-                <button
-                  onClick={toggleMute}
-                  className="absolute bottom-2 right-2 z-20 w-8 h-8 rounded-full bg-black/80 border border-white/30 flex items-center justify-center text-white hover:bg-black hover:border-white transition-all"
-                >
-                  {isMuted ? <FaVolumeMute className="text-[11px]" /> : <FaVolumeUp className="text-[11px]" />}
-                </button>
+            {/* 16:9 Video Top */}
+            <div className="relative w-full aspect-video bg-black cursor-pointer overflow-hidden" onClick={onClick}>
+              <iframe
+                ref={iframeRef}
+                title="Trailer"
+                src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&playlist=${trailerKey}&playsinline=1&enablejsapi=1`}
+                className="w-full h-full scale-[1.35] pointer-events-none transform-gpu will-change-transform"
+                allow="autoplay; encrypted-media"
+                onLoad={() => setTimeout(() => setIframeReady(true), 800)}
+              />
+              {/* Poster cover — hides YouTube loader/logo while buffering */}
+              <div
+                className="absolute inset-0 transition-opacity duration-500 pointer-events-none"
+                style={{ opacity: iframeReady ? 0 : 1 }}
+              >
+                {poster && (
+                  <div
+                    className="w-full h-full"
+                    style={{
+                      backgroundImage: `url(${poster})`,
+                      backgroundSize: '100% 100%',
+                      backgroundPosition: 'center center',
+                      filter: iframeReady ? 'none' : 'blur(12px)',
+                      transform: 'scale(1.15)',
+                    }}
+                  />
+                )}
+                {/* Dark scrim so it doesn't look too bright */}
+                <div className="absolute inset-0 bg-black/50" />
               </div>
+              <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#181818] to-transparent pointer-events-none" />
+              {/* Mute / Unmute button */}
+              <button
+                onClick={toggleMute}
+                className="absolute bottom-2 right-2 z-20 w-8 h-8 rounded-full bg-black/80 border border-white/30 flex items-center justify-center text-white hover:bg-black hover:border-white transition-all"
+              >
+                {isMuted ? <FaVolumeMute className="text-[11px]" /> : <FaVolumeUp className="text-[11px]" />}
+              </button>
+            </div>
 
-              {/* Info Panel Bottom */}
-              <div className="px-4 py-4 shrink-0 flex flex-col gap-2.5 relative z-10 -mt-[1px] bg-[#181818]">
-                <div className="flex items-center gap-2">
+            {/* Info Panel Bottom */}
+            <div className="px-4 py-4 shrink-0 flex flex-col gap-2.5 relative z-10 -mt-[1px] bg-[#181818]">
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={(e) => { e.stopPropagation(); onClick(); }}
+                  className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg shadow-white/10"
+                >
+                  <FaPlay className="text-black text-[10px] ml-0.5" />
+                </button>
+                {showWatchlistBtn && (
                   <button 
-                    onClick={(e) => { e.stopPropagation(); onClick(); }}
-                    className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:bg-gray-200 transition-colors shadow-lg shadow-white/10"
+                    onClick={handleWatchlist}
+                    className="w-8 h-8 rounded-full bg-[#2a2a2a] border border-white/30 flex items-center justify-center hover:border-white transition-colors"
                   >
-                    <FaPlay className="text-black text-[10px] ml-0.5" />
+                    {inWatchlist 
+                      ? (isWatchlistPage ? <FaTrash className="text-white text-[10px]" /> : <FaCheck className="text-white text-[10px]" />) 
+                      : <FaPlus className="text-white text-[10px]" />
+                    }
                   </button>
-                  {showWatchlistBtn && (
-                    <button 
-                      onClick={handleWatchlist}
-                      className="w-8 h-8 rounded-full bg-[#2a2a2a] border border-white/30 flex items-center justify-center hover:border-white transition-colors"
-                    >
-                      {inWatchlist 
-                        ? (isWatchlistPage ? <FaTrash className="text-white text-[10px]" /> : <FaCheck className="text-white text-[10px]" />) 
-                        : <FaPlus className="text-white text-[10px]" />
-                      }
-                    </button>
-                  )}
-                </div>
-                
-                <h4 className="text-white text-sm font-bold leading-tight">{title}</h4>
-                <div className="flex items-center gap-2 text-[10px] sm:text-[11px] font-semibold">
-                  {ratingNum && <span className={ratingColor}>{ratingNum}% Match</span>}
-                  {year && <span className="text-gray-400">{year}</span>}
-                  {mediaType && <span className="text-gray-400 border border-gray-600 px-1 rounded-sm uppercase text-[9px]">{mediaType}</span>}
-                </div>
+                )}
               </div>
-            </motion.div>
-          </div>
+              
+              <h4 className="text-white text-sm font-bold leading-tight">{title}</h4>
+              <div className="flex items-center gap-2 text-[10px] sm:text-[11px] font-semibold">
+                {ratingNum && <span className={ratingColor}>{ratingNum}% Match</span>}
+                {year && <span className="text-gray-400">{year}</span>}
+                {mediaType && <span className="text-gray-400 border border-gray-600 px-1 rounded-sm uppercase text-[9px]">{mediaType}</span>}
+              </div>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </motion.div>
