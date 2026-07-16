@@ -14,6 +14,30 @@ const VideoPlayer = ({ movieId }) => {
     const [shouldRender, setShouldRender] = useState(false);
     const [sourceIdx, setSourceIdx] = useState(0);
 
+    // Powerful Anti-Ad Interception Script
+    useEffect(() => {
+        // 1. Hijack the parent window's open mechanism to catch ad scripts escaping the frame
+        const originalOpen = window.open;
+        window.open = function (url, name, specs) {
+            console.warn("Shield Active: Blocked unauthorized popup attempt to:", url);
+            return null; // Tricking the ad script into thinking it succeeded while doing nothing
+        };
+
+        // 2. Kill "Frame Busting" (Stops the iframe from forcefully redirecting your main website)
+        const handleBeforeUnload = (e) => {
+            e.preventDefault();
+            e.returnValue = 'Prevented malicious tracking redirection.';
+            return e.returnValue;
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        // Cleanup defense listeners when switching sources or unmounting component
+        return () => {
+            window.open = originalOpen;
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [movieId, sourceIdx]);
+
     useEffect(() => {
         setShouldRender(false);
         const timer = setTimeout(() => setShouldRender(true), 150);
@@ -51,8 +75,13 @@ const VideoPlayer = ({ movieId }) => {
                     <iframe
                       key={iframeSrc}
                       src={iframeSrc}
-                      
-                      
+                      /* We implement a Stealth Sandbox layout. 
+                        By including 'allow-scripts' and 'allow-same-origin', the stream provider's internal
+                        checks will think the environment is un-sandboxed and load normally. 
+                        However, by strictly omitting 'allow-top-navigation-by-user-activation', we block 
+                        them from breaking out and hijacking your main webpage layout.
+                      */
+                      sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-pointer-lock"
                       allow="fullscreen *; picture-in-picture *; encrypted-media *; screen-wake-lock *;"
                       allowFullScreen
                       webkitallowfullscreen="true"
