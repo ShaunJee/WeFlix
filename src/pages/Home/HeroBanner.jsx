@@ -203,7 +203,7 @@ export default function HeroBanner() {
           </button>
           <button
             onClick={handlePlay}
-            className="flex items-center gap-2 bg-white/[0.1] hover:bg-white/[0.18] backdrop-blur border border-white/[0.15] text-white font-semibold px-6 py-3 rounded-full transition-all duration-200 text-sm"
+            className="flex items-center gap-2 bg-[#1a1f2e]/90 hover:bg-[#252c41] border border-white/10 text-white font-semibold px-6 py-3 rounded-full transition-all duration-200 text-sm"
           >
             <FaInfoCircle className="text-sm" />
             <span className="hidden sm:inline">More Info</span>

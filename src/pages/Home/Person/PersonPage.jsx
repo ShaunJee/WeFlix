@@ -83,7 +83,7 @@ export default function PersonPage() {
   if (error || !person) {
     return (
       <div className="min-h-screen bg-[#07080a] flex items-center justify-center p-6">
-        <div className="bg-red-900/10 border border-red-700/30 rounded-2xl p-8 max-w-sm w-full text-center backdrop-blur-md">
+        <div className="bg-[#1a0f0f] border border-red-700/30 rounded-2xl p-8 max-w-sm w-full text-center">
           <p className="text-red-400 mb-6 font-medium">{error}</p>
           <button onClick={() => navigate(-1)} className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 text-white font-semibold px-6 py-3 rounded-xl transition-all shadow-lg shadow-red-600/20">
             Go Back
