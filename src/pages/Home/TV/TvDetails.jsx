@@ -663,18 +663,17 @@ const TvDetails = ({ tvId: tvIdProp }) => {
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 md:px-12 mb-12">
         <div className="flex items-start gap-4 bg-blue-900/10 border border-blue-500/20 rounded-2xl p-4 md:p-5">
           <FaInfoCircle className="text-blue-400 text-xl shrink-0 mt-0.5" />
-          <p className="text-blue-200/70 text-sm leading-relaxed">
-            For the best ad-free streaming experience, we highly recommend using{" "}
-            <a
-              href="https://ublockorigin.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 font-semibold underline underline-offset-2 hover:text-blue-300 transition-colors"
-            >
-              uBlock Origin
-            </a>
-            . Enjoy uninterrupted playback.
-          </p>
+          <div className="flex flex-col gap-1 text-sm text-blue-200/70 leading-relaxed">
+            <p className="font-semibold">For the best ad-free streaming experience:</p>
+            <ul className="list-disc list-inside space-y-1 mt-1 text-[13px] text-blue-200/60">
+              <li>
+                <strong>Desktop:</strong> Use <a href="https://ublockorigin.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline font-semibold">uBlock Origin</a>.
+              </li>
+              <li>
+                <strong>Mobile (iOS/Android):</strong> Play inside the free <a href="https://brave.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline font-semibold">Brave Browser</a>, or use Firefox Mobile with the uBlock extension.
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
      
