@@ -1,23 +1,6 @@
 const API_KEY = import.meta.env.VITE_TMDB_API;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const fetchWithRetry = async (url, options = {}, retries = 2, delay = 800) => {
-  for (let i = 0; i <= retries; i++) {
-    try {
-      const res = await fetch(url, options);
-      if (res.ok) return res;
-      if (res.status >= 500 && i < retries) {
-        await new Promise(r => setTimeout(r, delay));
-        continue;
-      }
-      return res;
-    } catch (err) {
-      if (i === retries) throw err;
-      await new Promise(r => setTimeout(r, delay));
-    }
-  }
-};
-
 /**
  * Fetch content by genre — or by custom override params for special categories
  */
@@ -153,7 +136,7 @@ export const fetchMovieDetails = async (movieId) => {
     url.searchParams.append('language', 'en-US');
     url.searchParams.append('append_to_response', 'credits');
 
-    let response = await fetchWithRetry(url);
+    let response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch movie details`);
@@ -166,7 +149,7 @@ export const fetchMovieDetails = async (movieId) => {
       // TMDB edge cache can sometimes return corrupted/double-gzipped binary blobs.
       // Retry with a cache buster to force a fresh JSON response from origin.
       url.searchParams.set('cb', Date.now());
-      const retryResponse = await fetchWithRetry(url);
+      const retryResponse = await fetch(url);
       if (!retryResponse.ok) throw new Error(`Retry failed`);
       const retryText = await retryResponse.text();
       return JSON.parse(retryText);
@@ -213,7 +196,7 @@ export const fetchSeriesDetails = async (tvId) => {
     url.searchParams.append('language', 'en-US');
     url.searchParams.append('append_to_response', 'credits');
 
-    let response = await fetchWithRetry(url);
+    let response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch TV series details`);
@@ -224,7 +207,7 @@ export const fetchSeriesDetails = async (tvId) => {
       return JSON.parse(text);
     } catch (parseError) {
       url.searchParams.set('cb', Date.now());
-      const retryResponse = await fetchWithRetry(url);
+      const retryResponse = await fetch(url);
       if (!retryResponse.ok) throw new Error(`Retry failed`);
       const retryText = await retryResponse.text();
       return JSON.parse(retryText);
@@ -254,7 +237,7 @@ export const fetchAllEpisodes = async (tvId) => {
         url.searchParams.append('api_key', API_KEY);
         url.searchParams.append('language', 'en-US');
 
-        let response = await fetchWithRetry(url);
+        let response = await fetch(url);
         if (!response.ok) {
           console.warn(`Failed to fetch season ${season.season_number} for TV ${tvId}`);
           return null; // Return null instead of throwing to prevent Promise.all from failing
@@ -265,7 +248,7 @@ export const fetchAllEpisodes = async (tvId) => {
           return JSON.parse(text);
         } catch (parseError) {
           url.searchParams.set('cb', Date.now());
-          const retryResponse = await fetchWithRetry(url);
+          const retryResponse = await fetch(url);
           if (!retryResponse.ok) return null;
           const retryText = await retryResponse.text();
           return JSON.parse(retryText);
@@ -321,7 +304,7 @@ export const fetchPersonDetails = async (personId) => {
     url.searchParams.append('language', 'en-US');
     url.searchParams.append('append_to_response', 'combined_credits');
 
-    const response = await fetchWithRetry(url);
+    const response = await fetch(url);
 
     if (!response.ok) {
       const errorData = await response.json();
