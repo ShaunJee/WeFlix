@@ -63,17 +63,25 @@ const MovieDetails = ({ movieId: movieIdProp }) => {
     setLoading(true);
     setError(null);
     setRetrying(true);
+
+    // Fetch related movies in the background (non-blocking)
+    fetchRelatedMovies(movieId)
+      .then((relatedData) => {
+        setRelated((relatedData ?? []).filter((item) => item?.id && item.id !== movieId).slice(0, 18));
+      })
+      .catch((err) => {
+        console.warn("Failed to load related movies:", err);
+      });
+
+    // Fetch main movie details
     try {
-      const [data, relatedData] = await Promise.all([
-        fetchMovieDetails(movieId),
-        fetchRelatedMovies(movieId),
-      ]);
+      const data = await fetchMovieDetails(movieId);
       setMovie(data);
-      setRelated((relatedData ?? []).filter((item) => item?.id && item.id !== data.id).slice(0, 18));
+      setLoading(false);
     } catch {
       setError("Failed to load movie. Please try again.");
-    } finally {
       setLoading(false);
+    } finally {
       setRetrying(false);
     }
   }, [movieId]);

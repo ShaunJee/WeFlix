@@ -111,14 +111,23 @@ const TvDetails = ({ tvId: tvIdProp }) => {
     setLoading(true);
     setError(null);
     setRetrying(true);
+
+    // Fetch related series in the background (non-blocking)
+    fetchRelatedSeries(tvId)
+      .then((relatedData) => {
+        setRelated((relatedData ?? []).filter((item) => item?.id && item.id !== numericTvId).slice(0, 18));
+      })
+      .catch((err) => {
+        console.warn("Failed to load related series:", err);
+      });
+
+    // Fetch main TV series and episode details
     try {
-      const [seriesData, seasonsData, relatedData] = await Promise.all([
+      const [seriesData, seasonsData] = await Promise.all([
         fetchSeriesDetails(tvId),
         fetchAllEpisodes(tvId),
-        fetchRelatedSeries(tvId),
       ]);
       setTv(seriesData);
-      setRelated((relatedData ?? []).filter((item) => item?.id && item.id !== seriesData.id).slice(0, 18));
       const filtered = (seasonsData ?? [])
         .filter(s => s.season_number > 0)
         .sort((a, b) => a.season_number - b.season_number);
