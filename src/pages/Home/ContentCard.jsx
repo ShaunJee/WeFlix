@@ -216,7 +216,7 @@ const ContentCard = memo(({
 
           {/* Rating badge — top right */}
           {ratingNum && (
-            <div className="absolute top-2 right-2 flex items-center gap-1 bg-black/70 backdrop-blur-sm
+            <div className="absolute top-2 right-2 flex items-center gap-1 bg-black/85
               text-[11px] font-bold px-1.5 py-0.5 rounded-md">
               <FaStar className={`text-[9px] ${ratingColor}`} />
               <span className={ratingColor}>{ratingNum}%</span>
@@ -247,7 +247,7 @@ const ContentCard = memo(({
                   shadow-lg
                   ${inWatchlist
                     ? (isWatchlistPage ? 'bg-black/60 hover:bg-red-600/90 border border-white/20 hover:border-red-500' : 'bg-red-600 shadow-red-700/50')
-                    : 'bg-white/25 backdrop-blur-sm border border-white/30 hover:bg-white/35'
+                    : 'bg-white/15 border border-white/20 hover:bg-white/25'
                   }`}
               >
                 {inWatchlist
@@ -328,7 +328,7 @@ const ContentCard = memo(({
               {/* Mute / Unmute button */}
               <button
                 onClick={toggleMute}
-                className="absolute bottom-2 right-2 z-20 w-8 h-8 rounded-full bg-black/60 border border-white/30 flex items-center justify-center text-white hover:bg-black/80 hover:border-white transition-all backdrop-blur-sm"
+                className="absolute bottom-2 right-2 z-20 w-8 h-8 rounded-full bg-black/80 border border-white/30 flex items-center justify-center text-white hover:bg-black hover:border-white transition-all"
               >
                 {isMuted ? <FaVolumeMute className="text-[11px]" /> : <FaVolumeUp className="text-[11px]" />}
               </button>

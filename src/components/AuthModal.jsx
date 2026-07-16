@@ -75,7 +75,7 @@ export default function AuthModal({ isOpen, onClose }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/85"
           />
 
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
@@ -88,7 +88,7 @@ export default function AuthModal({ isOpen, onClose }) {
                 damping: 25,
                 stiffness: 300,
               }}
-              className="w-full max-w-[400px] bg-[#0b0f19]/95 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-2xl shadow-black overflow-hidden pointer-events-auto"
+              className="w-full max-w-[400px] bg-[#0e1320] border border-white/10 rounded-3xl shadow-2xl shadow-black overflow-hidden pointer-events-auto"
             >
               <div className="p-8">
 
