@@ -75,14 +75,7 @@ const VideoPlayer = ({ movieId }) => {
                     <iframe
                       key={iframeSrc}
                       src={iframeSrc}
-                      /* We implement a Stealth Sandbox layout. 
-                        By including 'allow-scripts' and 'allow-same-origin', the stream provider's internal
-                        checks will think the environment is un-sandboxed and load normally. 
-                        However, by strictly omitting 'allow-top-navigation-by-user-activation', we block 
-                        them from breaking out and hijacking your main webpage layout.
-                      */
-                      sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-pointer-lock"
-                      allow="fullscreen *; picture-in-picture *; encrypted-media *; screen-wake-lock *;"
+                      allow="fullscreen *; picture-in-picture *; autoplay *; encrypted-media *; screen-wake-lock *;"
                       allowFullScreen
                       webkitallowfullscreen="true"
                       mozallowfullscreen="true"
